@@ -78,8 +78,9 @@ output = proportional + integral + derivative;
 
 - [x] 04/27/2025 - Component selection
 - [x] 04/28/2025 - Mouser / eMAG order
-- [x] 04/30/2025 - Order has arrived
+- [x] 04/30/2025 - Order has arrived, except motors
 - [x] 04/30/2025 - MPU6050 integration with STM32
+- [ ] 05/06/2025 - Motors have arrived
 - [ ] 05/06/2025 - PID control
 - [ ] 05/07/2025 - Motor testing
 - [ ] 05/10/2025 - Final test with physical assembly
