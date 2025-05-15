@@ -1,0 +1,319 @@
+Raw Accel X:   1012, Y:      8, Z:  16596
+Raw Gyro  X:   3153, Y:   7004, Z:   8227
+Filtered X: 0.34, Y: 0.75
+Temp: 26.22 C
+
+Raw Accel X:   1188, Y:   -240, Z:  16324
+Raw Gyro  X:   -625, Y:   -666, Z:    586
+Filtered X: 0.27, Y: 0.67
+Temp: 26.22 C
+
+Raw Accel X:   1584, Y:   -460, Z:  16484
+Raw Gyro  X:   -587, Y:     20, Z:    378
+Filtered X: 0.20, Y: 0.66
+Temp: 26.22 C
+
+Raw Accel X:   1464, Y:   -276, Z:  16284
+Raw Gyro  X:   -463, Y:   1204, Z:    -61
+Filtered X: 0.15, Y: 0.78
+Temp: 26.22 C
+
+Raw Accel X:    932, Y:    412, Z:  16188
+Raw Gyro  X:   -719, Y:   1358, Z:   -101
+Filtered X: 0.08, Y: 0.92
+Temp: 26.22 C
+
+Raw Accel X:   1252, Y:     44, Z:  16712
+Raw Gyro  X:   -497, Y:   1634, Z:     20
+Filtered X: 0.03, Y: 1.08
+Temp: 26.32 C
+
+Raw Accel X:   1328, Y:   -304, Z:  16832
+Raw Gyro  X:      9, Y:   2530, Z:    191
+Filtered X: 0.02, Y: 1.33
+Temp: 26.32 C
+
+Raw Accel X:   1008, Y:    -32, Z:  16308
+Raw Gyro  X:    199, Y:   2820, Z:    324
+Filtered X: 0.04, Y: 1.61
+Temp: 26.32 C
+
+Raw Accel X:    976, Y:    600, Z:  15808
+Raw Gyro  X:    -22, Y:   2580, Z:    611
+Filtered X: 0.05, Y: 1.86
+Temp: 26.22 C
+
+Raw Accel X:    696, Y:     36, Z:  15792
+Raw Gyro  X:   -428, Y:   2270, Z:    748
+Filtered X: 0.01, Y: 2.08
+Temp: 26.22 C
+
+Raw Accel X:    264, Y:   -208, Z:  16132
+Raw Gyro  X:   -604, Y:   1135, Z:    347
+Filtered X: -0.06, Y: 2.19
+Temp: 26.32 C
+
+Raw Accel X:    336, Y:   -324, Z:  16060
+Raw Gyro  X:   -737, Y:    617, Z:    -35
+Filtered X: -0.15, Y: 2.24
+Temp: 26.22 C
+
+Raw Accel X:     12, Y:   -304, Z:  16044
+Raw Gyro  X:   -884, Y:   -201, Z:    -24
+Filtered X: -0.25, Y: 2.20
+Temp: 26.22 C
+
+Raw Accel X:     72, Y:     96, Z:  16316
+Raw Gyro  X:   -902, Y:  -1209, Z:   -232
+Filtered X: -0.34, Y: 2.05
+Temp: 26.22 C
+
+Raw Accel X:    348, Y:    100, Z:  15992
+Raw Gyro  X:  -1069, Y:  -1447, Z:   -133
+Filtered X: -0.45, Y: 1.88
+Temp: 26.22 C
+
+Raw Accel X:    544, Y:    168, Z:  16036
+Raw Gyro  X:  -1451, Y:  -1684, Z:    219
+Filtered X: -0.59, Y: 1.67
+Temp: 26.32 C
+
+Raw Accel X:    580, Y:   -112, Z:  15968
+Raw Gyro  X:  -1760, Y:  -1119, Z:    458
+Filtered X: -0.78, Y: 1.52
+Temp: 26.32 C
+
+Raw Accel X:    216, Y:     36, Z:  16564
+Raw Gyro  X:  -1742, Y:   -866, Z:    385
+Filtered X: -0.96, Y: 1.41
+Temp: 26.32 C
+
+Raw Accel X:    468, Y:    108, Z:  16772
+Raw Gyro  X:  -1430, Y:  -1073, Z:    288
+Filtered X: -1.09, Y: 1.27
+Temp: 26.22 C
+
+Raw Accel X:   1180, Y:    -28, Z:  16860
+Raw Gyro  X:   -880, Y:   -885, Z:     91
+Filtered X: -1.18, Y: 1.12
+Temp: 26.32 C
+
+Raw Accel X:    904, Y:    240, Z:  16356
+Raw Gyro  X:   -660, Y:   -310, Z:   -172
+Filtered X: -1.23, Y: 1.05
+Temp: 26.32 C
+
+Raw Accel X:    836, Y:    280, Z:  16160
+Raw Gyro  X:   -810, Y:   -429, Z:   -245
+Filtered X: -1.29, Y: 0.96
+Temp: 26.22 C
+
+Raw Accel X:    976, Y:      8, Z:  16256
+Raw Gyro  X:   -975, Y:   -216, Z:   -275
+Filtered X: -1.38, Y: 0.89
+Temp: 26.22 C
+
+Raw Accel X:    800, Y:    304, Z:  16168
+Raw Gyro  X:  -1054, Y:    510, Z:   -219
+Filtered X: -1.46, Y: 0.90
+Temp: 26.32 C
+
+Raw Accel X:    388, Y:   -128, Z:  15996
+Raw Gyro  X:  -1237, Y:    271, Z:    -15
+Filtered X: -1.58, Y: 0.90
+Temp: 26.22 C
+
+Raw Accel X:    424, Y:     60, Z:  15928
+Raw Gyro  X:  -1562, Y:  -1305, Z:   -153
+Filtered X: -1.72, Y: 0.73
+Temp: 26.32 C
+
+Raw Accel X:    960, Y:    184, Z:  16196
+Raw Gyro  X:  -1796, Y:  -1889, Z:   -381
+Filtered X: -1.88, Y: 0.47
+Temp: 26.41 C
+
+Raw Accel X:    836, Y:   -232, Z:  16488
+Raw Gyro  X:  -1647, Y:   -511, Z:   -345
+Filtered X: -2.04, Y: 0.37
+Temp: 26.22 C
+
+Raw Accel X:    664, Y:     32, Z:  16476
+Raw Gyro  X:  -1388, Y:    366, Z:    -88
+Filtered X: -2.15, Y: 0.37
+Temp: 26.22 C
+
+Raw Accel X:    736, Y:    -64, Z:  16472
+Raw Gyro  X:  -1230, Y:      7, Z:   -202
+Filtered X: -2.26, Y: 0.33
+Temp: 26.32 C
+
+Raw Accel X:    808, Y:     -8, Z:  16240
+Raw Gyro  X:  -1174, Y:   -217, Z:   -270
+Filtered X: -2.35, Y: 0.25
+Temp: 26.22 C
+
+Raw Accel X:    624, Y:     -8, Z:  16204
+Raw Gyro  X:  -1119, Y:    -45, Z:   -192
+Filtered X: -2.43, Y: 0.21
+Temp: 26.22 C
+
+Raw Accel X:    680, Y:     44, Z:  16188
+Raw Gyro  X:  -1207, Y:    271, Z:    -82
+Filtered X: -2.51, Y: 0.19
+Temp: 26.32 C
+
+Raw Accel X:    720, Y:     -8, Z:  16312
+Raw Gyro  X:  -1282, Y:    238, Z:    -42
+Filtered X: -2.60, Y: 0.17
+Temp: 26.22 C
+
+Raw Accel X:    512, Y:      0, Z:  16396
+Raw Gyro  X:  -1253, Y:    -15, Z:    -63
+Filtered X: -2.69, Y: 0.13
+Temp: 26.32 C
+
+Raw Accel X:    708, Y:    -68, Z:  16368
+Raw Gyro  X:  -1043, Y:   -349, Z:    -80
+Filtered X: -2.75, Y: 0.04
+Temp: 26.32 C
+
+Raw Accel X:    796, Y:     32, Z:  16060
+Raw Gyro  X:  -1042, Y:   -504, Z:   -137
+Filtered X: -2.81, Y: -0.07
+Temp: 26.22 C
+
+Raw Accel X:    692, Y:      0, Z:  16128
+Raw Gyro  X:  -1119, Y:   -322, Z:    -87
+Filtered X: -2.87, Y: -0.15
+Temp: 26.32 C
+
+Raw Accel X:    740, Y:    100, Z:  16364
+Raw Gyro  X:  -1265, Y:     69, Z:    -55
+Filtered X: -2.94, Y: -0.19
+Temp: 26.32 C
+
+Raw Accel X:    900, Y:    116, Z:  16288
+Raw Gyro  X:  -1309, Y:     37, Z:    -91
+Filtered X: -3.01, Y: -0.25
+Temp: 26.22 C
+
+Raw Accel X:    652, Y:    104, Z:  16404
+Raw Gyro  X:  -1338, Y:      1, Z:    -80
+Filtered X: -3.08, Y: -0.30
+Temp: 26.32 C
+
+Raw Accel X:    896, Y:    -32, Z:  16400
+Raw Gyro  X:  -1300, Y:    -76, Z:   -104
+Filtered X: -3.15, Y: -0.37
+Temp: 26.22 C
+
+Raw Accel X:    752, Y:    -60, Z:  16500
+Raw Gyro  X:  -1173, Y:   -453, Z:   -233
+Filtered X: -3.21, Y: -0.47
+Temp: 26.32 C
+
+Raw Accel X:    604, Y:   -104, Z:  16428
+Raw Gyro  X:  -1063, Y:   -600, Z:   -314
+Filtered X: -3.25, Y: -0.57
+Temp: 26.22 C
+
+Raw Accel X:    668, Y:     80, Z:  16216
+Raw Gyro  X:  -1107, Y:   -418, Z:   -161
+Filtered X: -3.29, Y: -0.66
+Temp: 26.22 C
+
+Raw Accel X:    600, Y:    -76, Z:  16536
+Raw Gyro  X:  -1038, Y:    171, Z:    102
+Filtered X: -3.32, Y: -0.69
+Temp: 26.22 C
+
+Raw Accel X:    520, Y:   -200, Z:  17640
+Raw Gyro  X:   -231, Y:   -235, Z:    328
+Filtered X: -3.28, Y: -0.74
+Temp: 26.41 C
+
+Raw Accel X:    684, Y:   -656, Z:  19160
+Raw Gyro  X:   1779, Y:     54, Z:    534
+Filtered X: -3.05, Y: -0.78
+Temp: 26.13 C
+
+Raw Accel X:   -428, Y:    -96, Z:  19456
+Raw Gyro  X:   2533, Y:   1938, Z:    821
+Filtered X: -2.72, Y: -0.54
+Temp: 26.32 C
+
+Raw Accel X:   -844, Y:    236, Z:  20272
+Raw Gyro  X:   4832, Y:   3374, Z:   2047
+Filtered X: -2.12, Y: -0.13
+Temp: 26.22 C
+
+Raw Accel X:   1064, Y:     60, Z:  20012
+Raw Gyro  X:   7420, Y:   7616, Z:   2086
+Filtered X: -1.28, Y: 0.59
+Temp: 26.22 C
+
+Raw Accel X:   -708, Y:   1020, Z:  16740
+Raw Gyro  X:   7947, Y:  11772, Z:   1719
+Filtered X: -0.33, Y: 1.85
+Temp: 26.32 C
+
+Raw Accel X:  -1284, Y:   1116, Z:  14152
+Raw Gyro  X:   6935, Y:   9819, Z:    138
+Filtered X: 0.53, Y: 2.95
+Temp: 26.32 C
+
+Raw Accel X:  -1048, Y:   1412, Z:  12872
+Raw Gyro  X:   5927, Y:   2688, Z:  -2067
+Filtered X: 1.30, Y: 3.26
+Temp: 26.32 C
+
+Raw Accel X:   -872, Y:   1516, Z:  11652
+Raw Gyro  X:   4345, Y:  -4353, Z:  -3271
+Filtered X: 1.92, Y: 2.82
+Temp: 26.22 C
+
+Raw Accel X:    476, Y:    924, Z:  10952
+Raw Gyro  X:   2345, Y: -10861, Z:  -2747
+Filtered X: 2.26, Y: 1.55
+Temp: 26.32 C
+
+Raw Accel X:    968, Y:   1388, Z:  10200
+Raw Gyro  X:   -939, Y: -18415, Z:  -1777
+Filtered X: 2.32, Y: -0.56
+Temp: 26.22 C
+
+Raw Accel X:   2676, Y:   1908, Z:  11984
+Raw Gyro  X:  -5536, Y: -23462, Z:  -1674
+Filtered X: 1.94, Y: -3.32
+Temp: 26.32 C
+
+Raw Accel X:   2904, Y:   -672, Z:  13368
+Raw Gyro  X: -10127, Y: -15612, Z:  -1999
+Filtered X: 0.78, Y: -5.20
+Temp: 26.22 C
+
+Raw Accel X:   3008, Y:   1340, Z:  13572
+Raw Gyro  X: -10141, Y:  -4778, Z:  -2247
+Filtered X: -0.13, Y: -5.91
+Temp: 26.32 C
+
+Raw Accel X:   2020, Y:   1508, Z:  16892
+Raw Gyro  X:  -9907, Y:    919, Z:  -2017
+Filtered X: -0.99, Y: -5.85
+Temp: 26.22 C
+
+Raw Accel X:   1992, Y:    476, Z:  26464
+Raw Gyro  X:  -5926, Y:   -555, Z:  -1012
+Filtered X: -1.53, Y: -5.89
+Temp: 26.32 C
+
+Raw Accel X:   2740, Y:    860, Z:  26888
+Raw Gyro  X:   1109, Y:     64, Z:  -1139
+Filtered X: -1.30, Y: -5.89
+Temp: 26.32 C
+
+Raw Accel X:   1996, Y:   2120, Z:  23380
+Raw Gyro  X:   7205, Y:   4982, Z:   -402
+Filtered X: -0.34, Y: -5.37
+Temp: 26.22 C
