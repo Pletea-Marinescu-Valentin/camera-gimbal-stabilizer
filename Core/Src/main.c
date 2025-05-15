@@ -18,8 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <math.h>
 #include <stdio.h>
 #include "mpu6050.h"
+#include "Kalman.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -60,7 +62,9 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+Kalman_t kalmanX, kalmanY;
+float angleX = 0.0f, angleY = 0.0f;
+uint32_t timer = 0;
 /* USER CODE END 0 */
 
 /**
@@ -110,34 +114,67 @@ int main(void)
    }
 
   printf("MPU6050 initialized successfully!\r\n");
+
+  // Initialize Kalman filters
+  Kalman_Init(&kalmanX);
+  Kalman_Init(&kalmanY);
+
+  // Get initial accelerometer angles to initialize Kalman filter
+  int16_t accel_x, accel_y, accel_z;
+  MPU6050_ReadAccel(&hi2c1, &accel_x, &accel_y, &accel_z);
+
+  // Calculate initial angle from accelerometer (simplified for horizontal orientation)
+  float accelAngleX = atan2f((float)accel_y, (float)accel_z) * 180.0f / 3.14159f;
+  float accelAngleY = atan2f((float)-accel_x, sqrtf((float)(accel_y * accel_y + accel_z * accel_z))) * 180.0f / 3.14159f;
+
+  // Set initial angles for Kalman filter
+  Kalman_SetAngle(&kalmanX, accelAngleX);
+  Kalman_SetAngle(&kalmanY, accelAngleY);
+
+  timer = HAL_GetTick();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while (1) {
 	  int16_t accel_x, accel_y, accel_z;
-	  int16_t gyro_x, gyro_y, gyro_z;
-	  float temp;
+      int16_t gyro_x, gyro_y, gyro_z;
+      float temp;
 
-	  // Read accelerometer data
-	  if (MPU6050_ReadAccel(&hi2c1, &accel_x, &accel_y, &accel_z) == HAL_OK) {
-		printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
-	  }
+      // Calculate dt (in seconds)
+      uint32_t now = HAL_GetTick();
+      float dt = (float)(now - timer) / 1000.0f;
+      timer = now;
 
-	  // Read gyroscope data
-	  if (MPU6050_ReadGyro(&hi2c1, &gyro_x, &gyro_y, &gyro_z) == HAL_OK) {
-		printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
-	  }
+      // Read raw sensor data
+      MPU6050_ReadAccel(&hi2c1, &accel_x, &accel_y, &accel_z);
+      MPU6050_ReadGyro(&hi2c1, &gyro_x, &gyro_y, &gyro_z);
+      MPU6050_ReadTemp(&hi2c1, &temp);
 
-	  // Read temperature
-	  if (MPU6050_ReadTemp(&hi2c1, &temp) == HAL_OK) {
-		printf("Temp: %.2f C\r\n", temp);
-	  }
+      // Convert gyro values to degrees/sec
+      float gyroX = (float)gyro_x / 131.0f;  // Divide by sensitivity scale factor
+      float gyroY = (float)gyro_y / 131.0f;
 
-	  printf("\r\n");
-	  HAL_Delay(500);  // Update every 500ms
-  }
+      // Calculate angles from accelerometer
+      float accelAngleX = atan2f((float)accel_y, (float)accel_z) * 180.0f / 3.14159f;
+      float accelAngleY = atan2f((float)-accel_x, sqrtf((float)(accel_y * accel_y + accel_z * accel_z))) * 180.0f / 3.14159f;
+
+      // Apply Kalman filter
+      angleX = Kalman_GetAngle(&kalmanX, accelAngleX, gyroX, dt);
+      angleY = Kalman_GetAngle(&kalmanY, accelAngleY, gyroY, dt);
+
+      // Print raw and filtered values
+      printf("Raw Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
+      printf("Raw Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
+      printf("Filtered X: %.2f, Y: %.2f\r\n", angleX, angleY);
+      printf("Temp: %.2f C\r\n\n", temp);
+
+      HAL_Delay(10);  // ~100Hz update rate
+    }
+
+  /* USER CODE END WHILE */
+
   /* USER CODE END 3 */
 }
 
