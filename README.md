@@ -102,7 +102,7 @@ The firmware is developed using STM32CubeIDE and leverages the following technol
 - Models/ - 3D models for printed components
 - Images/ - Project photos and diagrams
 
-# Kalman Filter Mathematical Model
+## Kalman Filter Mathematical Model
 
 The implemented Kalman filter follows a standard discrete-time approach for orientation estimation.
 
@@ -116,16 +116,16 @@ Where:
 - $\theta_k$ - Angle estimate at time k
 - $b_k$ - Gyroscope bias estimate at time k
 
-## Prediction Step
+### Prediction Step
 
 The state prediction equation:
 
-$$\hat{x}_{k|k-1} = F_k \cdot \hat{x}_{k-1|k-1} + B_k \cdot u_k$$
+$$x_{k|k-1} = F_k \cdot x_{k-1|k-1} + B_k \cdot u_k$$
 
 In this implementation:
 
-$$\hat{\theta}_{k|k-1} = \hat{\theta}_{k-1|k-1} + (\omega_k - \hat{b}_{k-1|k-1}) \cdot \Delta t$$
-$$\hat{b}_{k|k-1} = \hat{b}_{k-1|k-1}$$
+$$\theta_{k|k-1} = \theta_{k-1|k-1} + (\omega_k - b_{k-1|k-1}) \cdot \Delta t$$
+$$b_{k|k-1} = b_{k-1|k-1}$$
 
 Where:
 - $\omega_k$ - Angular rate from gyroscope
@@ -142,7 +142,7 @@ $$P_{01} -= \Delta t \cdot P_{11}$$
 $$P_{10} -= \Delta t \cdot P_{11}$$
 $$P_{11} += Q_{bias} \cdot \Delta t$$
 
-## Update Step
+### Update Step
 
 The Kalman gain is calculated:
 
@@ -150,19 +150,21 @@ $$K_k = P_{k|k-1} \cdot H_k^T \cdot (H_k \cdot P_{k|k-1} \cdot H_k^T + R_k)^{-1}
 
 In this implementation:
 
-$$S = P_{00} + R_{measure}$$
-$$K_0 = P_{00} / S$$
-$$K_1 = P_{10} / S$$
+$$y = \theta_{accel} - \theta_{k|k-1}$$
+$$\theta_{k|k} = \theta_{k|k-1} + K_0 \cdot y$$
+$$b_{k|k} = b_{k|k-1} + K_1 \cdot y$$
 
 The state is updated with the measurement:
 
-$$\hat{x}_{k|k} = \hat{x}_{k|k-1} + K_k \cdot (z_k - H_k \cdot \hat{x}_{k|k-1})$$
+$$x_{k|k} = x_{k|k-1} + K_k \cdot (z_k - H_k \cdot x_{k|k-1})$$
 
 In this implementation:
 
-$$y = \theta_{accel} - \hat{\theta}_{k|k-1}$$
-$$\hat{\theta}_{k|k} = \hat{\theta}_{k|k-1} + K_0 \cdot y$$
-$$\hat{b}_{k|k} = \hat{b}_{k|k-1} + K_1 \cdot y$$
+$$y = \theta_{accel} - \theta_{k|k-1}$$
+
+$$\theta_{k|k} = \theta_{k|k-1} + K_0 \cdot y$$
+
+$$b_{k|k} = b_{k|k-1} + K_1 \cdot y$$
 
 Where:
 - $\theta_{accel}$ - Angle calculated from accelerometer
@@ -178,7 +180,7 @@ $$P_{01} -= K_0 \cdot P_{01}$$
 $$P_{10} -= K_1 \cdot P_{00}$$
 $$P_{11} -= K_1 \cdot P_{01}$$
 
-## Tuning Parameters
+### Tuning Parameters
 
 The filter performance depends on three key parameters:
 
