@@ -31,10 +31,14 @@ This project implements a two-axis camera gimbal stabilizer using an STM32F401RE
 ### Connections
 
 #### MPU6050 to STM32
-- SDA → PA10
-- SCL → PA9
+- SDA → PB9
+- SCL → PB8
 - VCC → 3.3V
 - GND → GND
+
+#### UART for debugging:
+- TX → PA2
+- RX → PA3
 
 #### STM32 to L6234PD (Motor Drivers)
 - PWM1, PWM2, PWM3 → PA0, PA1, PA2 (X-axis Motor)
@@ -52,27 +56,12 @@ The firmware is developed using STM32CubeIDE and leverages the following technol
 - Complementary filter for sensor fusion
 - UART for debugging and parameter adjustment
 
-### Key Algorithms
-
-c
-// Complementary filter for angle estimation
-angle = ALPHA * (angle + gyro_data * dt) + (1 - ALPHA) * accel_angle;
-
-// Basic PID controller
-error = setpoint - current_angle;
-proportional = KP * error;
-integral += KI * error * dt;
-derivative = KD * (error - previous_error) / dt;
-output = proportional + integral + derivative;
-
-
 ## Results
 
-- Functional two-axis stabilization with ±2 degrees precision
-- Real-time feedback through UART interface
-- Precise position control for cameras weighing up to 500g
-- Modular system, expandable for adding a third axis
-- Optimized energy consumption (~500mA under load)
+- Accurate orientation estimation with significantly reduced noise
+- Stable angle measurement even under motion or vibration
+- Real-time data reporting through UART interface
+- Sampling rate of approximately 100Hz
 
 ## Project Status
 
@@ -80,7 +69,8 @@ output = proportional + integral + derivative;
 - [x] 04/28/2025 - Mouser / eMAG order
 - [x] 04/30/2025 - Order has arrived, except motors
 - [x] 04/30/2025 - MPU6050 integration with STM32
-- [x] 05/07/2025 - Motors have arrived
+- [x] 05/06/2025 - Motors expected to arrive
+- [x] 05/14/2025 - Kalman filter implementation
 - [ ] 05/06/2025 - PID control
 - [ ] 05/07/2025 - Motor testing
 - [ ] 05/10/2025 - Final test with physical assembly
@@ -93,10 +83,11 @@ output = proportional + integral + derivative;
 
 ## Directory Structure
 
-- src/ - Source code files
-- hardware/ - Electrical schematics and hardware designs
-- models/ - 3D models for printed components
-- images/ - Project photos and diagrams
+- Core/Src/ - Source code files
+- Core/Inc/ - Header code files
+- Hardware/ - Electrical schematics and hardware designs
+- Models/ - 3D models for printed components
+- Images/ - Project photos and diagrams
 
 ## Resources
 
