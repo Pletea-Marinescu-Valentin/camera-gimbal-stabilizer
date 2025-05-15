@@ -89,6 +89,90 @@ The firmware is developed using STM32CubeIDE and leverages the following technol
 - Models/ - 3D models for printed components
 - Images/ - Project photos and diagrams
 
+# Kalman Filter Mathematical Model
+
+The implemented Kalman filter follows a standard discrete-time approach for orientation estimation.
+
+## State Space Representation
+
+The filter uses a 2×1 state vector:
+
+$$x_k = \begin{bmatrix} \theta_k \\ b_k \end{bmatrix}$$
+
+Where:
+- $\theta_k$ - Angle estimate at time k
+- $b_k$ - Gyroscope bias estimate at time k
+
+## Prediction Step
+
+The state prediction equation:
+
+$$\hat{x}_{k|k-1} = F_k \cdot \hat{x}_{k-1|k-1} + B_k \cdot u_k$$
+
+In this implementation:
+
+$$\hat{\theta}_{k|k-1} = \hat{\theta}_{k-1|k-1} + (\omega_k - \hat{b}_{k-1|k-1}) \cdot \Delta t$$
+$$\hat{b}_{k|k-1} = \hat{b}_{k-1|k-1}$$
+
+Where:
+- $\omega_k$ - Angular rate from gyroscope
+- $\Delta t$ - Time step
+
+The error covariance is projected ahead:
+
+$$P_{k|k-1} = F_k \cdot P_{k-1|k-1} \cdot F_k^T + Q_k$$
+
+In the implementation:
+
+$$P_{00} += \Delta t \cdot (\Delta t \cdot P_{11} - P_{01} - P_{10} + Q_{angle})$$
+$$P_{01} -= \Delta t \cdot P_{11}$$
+$$P_{10} -= \Delta t \cdot P_{11}$$
+$$P_{11} += Q_{bias} \cdot \Delta t$$
+
+## Update Step
+
+The Kalman gain is calculated:
+
+$$K_k = P_{k|k-1} \cdot H_k^T \cdot (H_k \cdot P_{k|k-1} \cdot H_k^T + R_k)^{-1}$$
+
+In this implementation:
+
+$$S = P_{00} + R_{measure}$$
+$$K_0 = P_{00} / S$$
+$$K_1 = P_{10} / S$$
+
+The state is updated with the measurement:
+
+$$\hat{x}_{k|k} = \hat{x}_{k|k-1} + K_k \cdot (z_k - H_k \cdot \hat{x}_{k|k-1})$$
+
+In this implementation:
+
+$$y = \theta_{accel} - \hat{\theta}_{k|k-1}$$
+$$\hat{\theta}_{k|k} = \hat{\theta}_{k|k-1} + K_0 \cdot y$$
+$$\hat{b}_{k|k} = \hat{b}_{k|k-1} + K_1 \cdot y$$
+
+Where:
+- $\theta_{accel}$ - Angle calculated from accelerometer
+
+Finally, the error covariance is updated:
+
+$$P_{k|k} = (I - K_k \cdot H_k) \cdot P_{k|k-1}$$
+
+In this implementation:
+
+$$P_{00} -= K_0 \cdot P_{00}$$
+$$P_{01} -= K_0 \cdot P_{01}$$
+$$P_{10} -= K_1 \cdot P_{00}$$
+$$P_{11} -= K_1 \cdot P_{01}$$
+
+## Tuning Parameters
+
+The filter performance depends on three key parameters:
+
+- $Q_{angle}$ - Process noise for angle (set to 0.001 in the implementation)
+- $Q_{bias}$ - Process noise for bias (set to 0.003 in the implementation)
+- $R_{measure}$ - Measurement noise (set to 0.03 in the implementation)
+
 ## Resources
 
 ### Hardware Resources
