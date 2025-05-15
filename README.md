@@ -15,6 +15,19 @@ This project implements a two-axis camera gimbal stabilizer using an STM32F401RE
 - Modular design for future expansion
 - Support for cameras up to 500g
 
+## Bill of Materials (BOM)
+
+| Component | Quantity | Supplier | Price/Unit | Link | Datasheet |
+|-----------|----------|----------|------------|------|-----------|
+| NUCLEO-F401RE Development Board | 1 | Mouser Electronics | €13.13 | [Mouser](https://ro.mouser.com/ProductDetail/STMicroelectronics/NUCLEO-F401RE?qs=fK8dlpkaUMvGeToFJ6rzdA%3D%3D) | [STM32F401RE Datasheet](https://www.st.com/resource/en/data_brief/nucleo-c031c6.pdf) |
+| MPU6050 Gyroscope/Accelerometer Module | 1 | Mouser Electronics | €8.55 | [Mouser](https://ro.mouser.com/ProductDetail/Olimex-Ltd/MOD-MPU6050?qs=SUpef6bDnvVsH%252Bq1tWOBKA%3D%3D) | [MPU6050 Datasheet](https://ro.mouser.com/datasheet/2/306/RM-MPU-60xxA_rev_4-736751.pdf) |
+| A2212 1000KV Brushless Motor | 2 | eMAG | RON 80 | [eMAG](https://www.emag.ro/motor-electric-brushless-outrunner-a2212-1000-kv-d28xl25mm-pentru-aeromodele-navomodele-si-drone-p2-0031-1000/pd/D0XV3LMBM/) | [A2212 Specifications](https://www.emag.ro/motor-electric-brushless-outrunner-a2212-1000-kv-d28xl25mm-pentru-aeromodele-navomodele-si-drone-p2-0031-1000/pd/D0XV3LMBM/#description-section/) |
+| L6234PD Motor Driver | 3 | Mouser Electronics | €4.79 | [Mouser](https://ro.mouser.com/ProductDetail/STMicroelectronics/L6234PD?qs=lgHKUCmDFtgFRXXnpwFpNg%3D%3D) | [L6234PD Datasheet](https://ro.mouser.com/datasheet/2/389/l6234-1849406.pdf) |
+| Mini Breadboard | 2 | Mouser Electronics | €2.60 | [Mouser](https://ro.mouser.com/ProductDetail/OSEPP-Electronics/LS-00047?qs=w%2Fv1CP2dgqofvkXBf4F3MQ%3D%3D) | [LS-00047 Datasheet](https://www.osepp.com/accessories/components/162-ls-00047-solder-able-breadboard-mini) |
+| Resistors Kit | 1 | Mouser Electronics | €10.84 | [Mouser](https://ro.mouser.com/ProductDetail/SparkFun/COM-10969?qs=WyAARYrbSnYDX0pYE0qQCg%3D%3D) | N/A |
+
+**Invoice**: [Mouser Invoice](https://ro.mouser.com/account/invoices/detail/84301659?hashId=mn6wOP)
+
 ## Hardware
 
 ### Components
