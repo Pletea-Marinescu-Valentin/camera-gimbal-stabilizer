@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include <stdio.h>
+#include "mpu6050.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -94,17 +95,48 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  printf("Checking MPU6050 connection...\n");
 
+  // Initialize MPU6050
+   if (MPU6050_Init(&hi2c1) != HAL_OK) {
+     printf("MPU6050 initialization failed!\r\n");
+     Error_Handler();
+   }
+
+   // Check if MPU6050 is connected
+   if (MPU6050_IsConnected(&hi2c1) != HAL_OK) {
+     printf("MPU6050 connection failed!\r\n");
+     Error_Handler();
+   }
+
+  printf("MPU6050 initialized successfully!\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-	printf("test test \n");
-	HAL_Delay(1000);
-    /* USER CODE BEGIN 3 */
+	  int16_t accel_x, accel_y, accel_z;
+	  int16_t gyro_x, gyro_y, gyro_z;
+	  float temp;
+
+	  // Read accelerometer data
+	  if (MPU6050_ReadAccel(&hi2c1, &accel_x, &accel_y, &accel_z) == HAL_OK) {
+		printf("Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
+	  }
+
+	  // Read gyroscope data
+	  if (MPU6050_ReadGyro(&hi2c1, &gyro_x, &gyro_y, &gyro_z) == HAL_OK) {
+		printf("Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
+	  }
+
+	  // Read temperature
+	  if (MPU6050_ReadTemp(&hi2c1, &temp) == HAL_OK) {
+		printf("Temp: %.2f C\r\n", temp);
+	  }
+
+	  printf("\r\n");
+	  HAL_Delay(500);  // Update every 500ms
   }
   /* USER CODE END 3 */
 }
