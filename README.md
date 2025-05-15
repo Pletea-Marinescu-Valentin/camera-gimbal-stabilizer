@@ -110,7 +110,7 @@ The implemented Kalman filter follows a standard discrete-time approach for orie
 
 The filter uses a 2×1 state vector:
 
-$$x_k = \begin{bmatrix} \theta_k \\ b_k \end{bmatrix}$$
+$$x_k = \begin{bmatrix} \theta_k \\\\ b_k \end{bmatrix}$$
 
 Where:
 - $\theta_k$ - Angle estimate at time k
