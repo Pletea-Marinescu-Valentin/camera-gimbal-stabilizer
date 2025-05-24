@@ -31,7 +31,9 @@
 #include "mpu6050.h"
 #include "stm32f4xx_hal.h"
 #include "core_cm4.h"
+#include "motor.h"
 /* USER CODE END Includes */
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
@@ -116,7 +118,7 @@ int main(void)
 
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  printf("Checking MPU6050 connection...\n");
+  printf("CChecking MPU6050 connection...\n");
 
   // Initialize MPU6050
    if (MPU6050_Init(&hi2c1) != HAL_OK) {
@@ -135,6 +137,13 @@ int main(void)
   // Initialize Kalman filters
   Kalman_Init(&kalmanX);
   Kalman_Init(&kalmanY);
+
+  // Initialize and arm motors
+  printf("Initializing motors...\r\n");
+  Motor_Init(&htim3);
+  printf("Arming ESCs, please wait...\r\n");
+  Motor_Arm(&htim3);
+  printf("Motors ready!\r\n");
 
   // Get initial accelerometer angles to initialize Kalman filter
   int16_t accel_x, accel_y, accel_z;
@@ -182,10 +191,13 @@ int main(void)
       angleY = Kalman_GetAngle(&kalmanY, accelAngleY, gyroY, dt);
 
       // Print raw and filtered values
-      printf("Raw Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
-      printf("Raw Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
-      printf("Filtered X: %.2f, Y: %.2f\r\n", angleX, angleY);
-      printf("Temp: %.2f C\r\n\n", temp);
+	  printf("Raw Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
+	  printf("Raw Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
+	  printf("Filtered X: %.2f, Y: %.2f\r\n", angleX, angleY);
+	  printf("Temp: %.2f C\r\n\n", temp);
+
+      // Control motors based on filtered angles
+      Motor_ControlFromAngle(&htim3, angleX, angleY);
 
       HAL_Delay(10);  // ~100Hz update rate
     }
