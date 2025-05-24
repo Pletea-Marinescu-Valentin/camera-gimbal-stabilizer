@@ -1,1 +1,25 @@
-/Debug/
+# Ignore specific folders
+Debug/
+Drivers/
+.settings/
+Core/Startup/
+
+# Ignore specific file extensions
+*.launch
+*.ld
+
+# Ignore specific files
+.mxproject
+.project
+.cproject
+
+# Other common files/folders to ignore
+.metadata/
+Release/
+*.o
+*.d
+*.bin
+*.elf
+*.hex
+*.map
+*.lst
