@@ -22,18 +22,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <math.h>
 #include "kalman.h"
 #include "mpu6050.h"
-#include "stm32f4xx_hal.h"
-#include "core_cm4.h"
-#include "motor.h"
-/* USER CODE END Includes */
+#include "gimbal_control.h"
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 
+/* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
@@ -53,12 +50,14 @@
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
 
+TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+GimbalController_t gimbal;
+TIM_HandleTypeDef htim1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,6 +66,7 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -115,8 +115,8 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_TIM3_Init();
-
   MX_USART2_UART_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   printf("CChecking MPU6050 connection...\n");
 
@@ -138,12 +138,21 @@ int main(void)
   Kalman_Init(&kalmanX);
   Kalman_Init(&kalmanY);
 
-  // Initialize and arm motors
-  printf("Initializing motors...\r\n");
-  Motor_Init(&htim3);
-  printf("Arming ESCs, please wait...\r\n");
-  Motor_Arm(&htim3);
-  printf("Motors ready!\r\n");
+  printf("Init Gimbal...\n");
+
+  // Inițializează controlul gimbal-ului
+  if (Gimbal_Init(&gimbal, &htim3, &htim1, &hi2c1) != HAL_OK) {
+      printf("Error at init gimbal!\r\n");
+      Error_Handler();
+  }
+
+  printf("Gimbal init OK!\r\n");
+
+  // Setează parametrii PID
+  Gimbal_SetPIDGains(&gimbal, 1.8f, 0.08f, 0.03f);
+
+  // Setează target-ul inițial
+  Gimbal_SetTarget(&gimbal, 0.0f, 0.0f);
 
   // Get initial accelerometer angles to initialize Kalman filter
   int16_t accel_x, accel_y, accel_z;
@@ -164,6 +173,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
+	  if (Gimbal_Update(&gimbal) != HAL_OK) {
+		  printf("Error at updating gimbal!\r\n");
+	  }
 	  int16_t accel_x, accel_y, accel_z;
       int16_t gyro_x, gyro_y, gyro_z;
       float temp;
@@ -190,14 +202,19 @@ int main(void)
       angleX = Kalman_GetAngle(&kalmanX, accelAngleX, gyroX, dt);
       angleY = Kalman_GetAngle(&kalmanY, accelAngleY, gyroY, dt);
 
-      // Print raw and filtered values
-	  printf("Raw Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
-	  printf("Raw Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
-	  printf("Filtered X: %.2f, Y: %.2f\r\n", angleX, angleY);
-	  printf("Temp: %.2f C\r\n\n", temp);
+      static int debug_counter = 0;
+	  if (++debug_counter >= 100) {
+		  printf("Pitch: %.2f -> %.2f | Roll: %.2f -> %.2f\r\n",
+				 gimbal.current_pitch, gimbal.target_pitch,
+				 gimbal.current_roll, gimbal.target_roll);
+		  debug_counter = 0;
+	  }
 
-      // Control motors based on filtered angles
-      Motor_ControlFromAngle(&htim3, angleX, angleY);
+      // Print raw and filtered values
+	  //printf("Raw Accel X: %6d, Y: %6d, Z: %6d\r\n", accel_x, accel_y, accel_z);
+	  //printf("Raw Gyro  X: %6d, Y: %6d, Z: %6d\r\n", gyro_x, gyro_y, gyro_z);
+	  //printf("Filtered X: %.2f, Y: %.2f\r\n", angleX, angleY);
+	  //printf("Temp: %.2f C\r\n\n", temp);
 
       HAL_Delay(10);  // ~100Hz update rate
     }
@@ -207,7 +224,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-
 
 /**
   * @brief System Clock Configuration
@@ -286,6 +302,75 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 83;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 999;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 0;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+  HAL_TIM_MspPostInit(&htim1);
 
 }
 
@@ -406,6 +491,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, IN4_Pin|IN1_Pin|IN2_Pin|IN3_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
@@ -418,6 +506,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : IN4_Pin IN1_Pin IN2_Pin IN3_Pin */
+  GPIO_InitStruct.Pin = IN4_Pin|IN1_Pin|IN2_Pin|IN3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
