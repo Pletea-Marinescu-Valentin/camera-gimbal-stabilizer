@@ -5,43 +5,40 @@
 #include "kalman.h"
 #include "mpu6050.h"
 
-// Structure pentru controlul gimbal-ului
+// Gimbal control structure
 typedef struct {
-    // Handle-uri pentru timer-ele PWM
-    TIM_HandleTypeDef *htim_servo;   // TIM3 pentru servo-uri
-    TIM_HandleTypeDef *htim_motor;   // TIM1 pentru L298N
+    // PWM timer handle for servos
+    TIM_HandleTypeDef *htim_servo;  // TIM3 for servo control
 
-    // Handle pentru I2C și senzor
+    // I2C and sensor handle
     I2C_HandleTypeDef *hi2c;
 
-    // Filtre Kalman pentru pitch și roll
+    // Kalman filters for pitch and roll
     Kalman_t kalman_pitch;
     Kalman_t kalman_roll;
 
-    // Variabile PID
+    // PID variables
     float kp, ki, kd;
     float integral_pitch, integral_roll;
     float last_error_pitch, last_error_roll;
 
-    // Target-uri și valori curente
+    // Target and current values
     float target_pitch, target_roll;
     float current_pitch, current_roll;
 
-    // Limitele și setările
-    float max_angle;        // Limita maximă de înclinare
-    float servo_center_us;  // Centru servo în microsecunde
-    float servo_range_us;   // Intervalul servo în microsecunde
-    float motor_max_speed;  // Viteza maximă motor (0.0-1.0)
+    // Limits and settings
+    float max_angle;        // Maximum tilt limit
+    float servo_center_us;  // Servo center in microseconds (1500us)
+    float servo_range_us;   // Servo range in microseconds (±500us)
 
     // Timing
     uint32_t last_update_time;
 
 } GimbalController_t;
 
-// Funcții publice
+// Public functions
 HAL_StatusTypeDef Gimbal_Init(GimbalController_t *gimbal,
                              TIM_HandleTypeDef *htim_servo,
-                             TIM_HandleTypeDef *htim_motor,
                              I2C_HandleTypeDef *hi2c);
 HAL_StatusTypeDef Gimbal_Update(GimbalController_t *gimbal);
 void Gimbal_SetTarget(GimbalController_t *gimbal, float pitch, float roll);
