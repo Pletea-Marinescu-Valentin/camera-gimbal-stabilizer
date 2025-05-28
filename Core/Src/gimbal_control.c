@@ -2,8 +2,8 @@
 #include <math.h>
 
 // Configuration constants
-#define SERVO_MIN_PULSE_US    1000  // Minimum servo pulse width
-#define SERVO_MAX_PULSE_US    2000  // Maximum servo pulse width
+#define SERVO_MIN_PULSE_US    500  // Minimum servo pulse width
+#define SERVO_MAX_PULSE_US    2500  // Maximum servo pulse width
 #define SERVO_CENTER_PULSE_US 1500  // Center servo pulse width
 #define SERVO_PWM_PERIOD_US   20000 // PWM period (20ms for 50Hz)
 
